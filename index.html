@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy 18th Birthday!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #fff3e0, #ffe0b2); /* neutral warm background */
+      color: #333;
+      overflow-x: hidden; /* allow vertical scroll */
+    }
+    h1 {
+      font-size: 3.5em;
+      margin-top: 40px;
+      animation: glow 2s infinite alternate;
+      text-align: center;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ffcc70; }
+      to { text-shadow: 0 0 20px #ffcc70, 0 0 30px #ffcc70; }
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      margin-top: 30px;
+    }
+    .overlay {
+      background: rgba(255, 94, 98, 0.7);
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 500px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 15px;
+      margin: 30px auto;
+      max-width: 500px;
+    }
+    button {
+      background: #ffcc70;
+      border: none;
+      border-radius: 10px;
+      padding: 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+    button:hover {
+      transform: scale(1.1);
+      background: #ffb347;
+    }
+    /* Confetti styling */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      top: -10px;
+      animation: fall 5s linear infinite;
+    }
+    @keyframes fall {
+      to { transform: translateY(100vh) rotate(360deg); }
+    }
+    /* Final message styling */
+    #finalMessage {
+      display: none;
+      font-size: 2em;
+      margin: 40px auto;
+      background: rgba(255, 204, 112, 0.8);
+      padding: 20px;
+      border-radius: 15px;
+      animation: glow 2s infinite alternate;
+      text-align: center;
+      max-width: 700px;
+    }
+    /* Photo box */
+    .photo-box {
+      border: 5px solid #ffcc70;
+      border-radius: 15px;
+      overflow: hidden;
+      width: 250px;
+      height: 300px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Message display box */
+    #messageBox {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff8e1;
+      border: 2px solid #ffcc70;
+      border-radius: 10px;
+      font-size: 1.2em;
+      color: #333;
+      text-align: center;
+      min-height: 50px;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday 💖 🎉</h1>
+  
+  <div class="container">
+    <div class="overlay">
+      <p>Click each number to reveal a special message 💖</p>
+      <div class="grid" id="grid"></div>
+      <div id="messageBox"></div>
+    </div>
+    
+    <div class="photo-box">
+      <img id="mainPhoto" src="sister.jpeg" alt="Birthday Girl">
+    </div>
+  </div>
+
+  <!-- Final message sits outside the container, at the bottom -->
+  <div id="finalMessage">🌟 Surprise! 🌟<br>
+    🎂💖 Happy Birthday, Ms. Nedha Shabeer! 💖🎂
+   
+    <br>
+    <img id="finalPhoto" src="surprise.jpeg" alt="Surprise Photo" style="width:300px; border-radius:15px; margin-top:20px; display:none;">
+  </div>
+
+  <script>
+    const messages = [
+      "Happy almost one fifth of a century",
+      "Age is just a number 😌✨",
+      "Smile! While you still have teeth💕",
+      "I was going to get you a gift, but my bank account said 'be serious'. 💀",
+      "Congratulations. You’ve officially upgraded from confusing child to confusing adult. Growth.",
+      "Your confidence when you’re wrong is actually inspiring.",
+      "Sometimes I watch you think and wonder if there’s background music playing in your head.",
+      "You give main character energy. But like… in an indie film. With subtitles.",
+      "You cry easily, but also laugh easily. Emotional range: unlimited.",
+      "You radiate joy… and slight confusion.",
+      "You don’t overthink. You over-overthink.",
+      "18 now… and somehow you’re still taller than me. What kind of cheating is this?",
+      "Safa and you share the same 'no pain tolerance' superpower. Pain? Bye.",
+      "You’re dramatic in a way that entertains everyone around you.",
+      "You're old.",
+      "Pretty rude of you to be younger than me but whatever.",
+      "I’m out of lines… 🫩 anyway happy birthday",
+      "Welcome to 18. Adult-ish humans now legally."
+    ];
+
+    const grid = document.getElementById("grid");
+    const messageBox = document.getElementById("messageBox");
+    let clickedCount = 0;
+
+    for (let i = 1; i <= 18; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.onclick = () => {
+        messageBox.innerHTML = messages[i-1];
+        btn.disabled = true;
+        clickedCount++;
+        if (clickedCount === 18) {
+          document.getElementById("finalMessage").style.display = "block";
+          document.getElementById("finalPhoto").style.display = "block";
+          document.getElementById("mainPhoto").src = "surprise.jpeg"; // swap the side photo
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+      };
+      grid.appendChild(btn);
+    }
+
+    // Confetti generator
+    function createConfetti() {
+      const confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      confetti.style.left = Math.random() * window.innerWidth + "px";
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 5000);
+    }
+
+    setInterval(createConfetti, 200);
+  </script>
+</body>
+</html>
